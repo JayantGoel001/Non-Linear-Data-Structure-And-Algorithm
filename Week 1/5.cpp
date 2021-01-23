@@ -32,33 +32,25 @@ int main(){
             head = temp;
         }
     }
-    cout<<"Enter M And N :\n";
-    int M,N;
-    cin>>M>>N;
+    Node *tail = head;
     Node *temp = head;
-    Node *output = nullptr;
-    Node *ptr = output;
-    while (temp!= nullptr) {
-        int i = 0;
-        while (i < M && temp != nullptr) {
-            Node *dataPtr = new Node(temp->data);
-            if (ptr) {
-                ptr->next = dataPtr;
-                ptr = ptr->next;
-            } else {
-                ptr = dataPtr;
-                output = dataPtr;
-            }
-            temp = temp->next;
-            i++;
-        }
-        int j = 0;
-        while (j < N && temp != nullptr) {
-            temp = temp->next;
-            j++;
-        }
+    while (temp->next!= nullptr){
+        temp = temp->next;
     }
-    Node *printOutput = output;
+    tail = temp;
+    int k;
+    cout<<"Enter The value of K:\n";
+    cin>>k;
+    while (k && head!= nullptr){
+        Node *tempNext = head->next;
+        head->next = nullptr;
+        tail->next = head;
+        tail = tail->next;
+        head = tempNext;
+        k--;
+    }
+
+    Node *printOutput = head;
     while (printOutput){
         cout<<printOutput->data<<" ";
         printOutput = printOutput->next;

@@ -81,21 +81,21 @@ int main(){
     Node *end = tail;
     temp = head;
     Node *prev = nullptr;
-    while (temp!= nullptr && temp!=end->next){
+    while (temp!= nullptr && end!= nullptr && temp!=end->next){
         if (temp->data%2!=0){
             Node *secTemp = temp->next;
             if (prev){
                 prev->next = secTemp;
             } else{
-                prev = secTemp;
                 head = secTemp;
             }
             if (tail) {
                 tail->next = new Node(temp->data);
                 tail = tail->next;
             }
+        } else {
+            prev = temp;
         }
-        prev = temp;
         temp = temp->next;
     }
     cout<<"\n\n";

@@ -5,7 +5,7 @@ public:
     int data;
     Node *next;
     Node(){
-        data = 0;
+        this->data = 0;
         next = nullptr;
     }
     explicit Node(int data){
@@ -32,10 +32,50 @@ int main(){
             head = temp;
         }
     }
+
     Node *tail = curr;
+
     curr->next = head;
     cout<<"Enter The Value from where it is to be split:\n";
     int k;
     cin>>k;
+    Node *temp = head;
+    Node *prev = nullptr;
+    Node *firstHead = nullptr;
+    Node *secondHead = nullptr;
+    Node *firstTail = nullptr;
+    Node *secondTail = nullptr;
+    while (temp && temp!=tail){
+        if (temp->data==k){
+            if (prev){
+                prev->next = head;
+                firstHead = head;
+                firstTail = prev;
+            }
+            secondHead = temp;
+            secondTail = tail;
+            tail->next = temp;
+            break;
+        } else {
+            prev = temp;
+            temp = temp->next;
+        }
+    }
+    cout<<"First Sequence:\n";
+    while (firstHead!= nullptr && firstHead!=firstTail){
+        cout<<firstHead->data<<"->";
+        firstHead = firstHead->next;
+    }
+    if (firstHead){
+        cout<<firstHead->data<<"\n";
+    }
+    cout<<"Second Sequence:\n";
+    while (secondHead!= nullptr && secondHead!=secondTail){
+        cout<<secondHead->data<<"->";
+        secondHead = secondHead->next;
+    }
+    if (secondHead){
+        cout<<secondHead->data<<"\n";
+    }
 
 }

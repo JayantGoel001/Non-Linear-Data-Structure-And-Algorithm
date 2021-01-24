@@ -69,4 +69,41 @@ int main(){
         cout<<printOutput->data<<" ";
         printOutput = printOutput->next;
     }
+
+    //Another Approach
+
+    Node *temp = head;
+    Node *tail = head;
+    while (temp!= nullptr && temp->next!= nullptr){
+        temp = temp->next;
+    }
+    tail = temp;
+    Node *end = tail;
+    temp = head;
+    Node *prev = nullptr;
+    while (temp!= nullptr && temp!=end->next){
+        if (temp->data%2!=0){
+            Node *secTemp = temp->next;
+            if (prev){
+                prev->next = secTemp;
+            } else{
+                prev = secTemp;
+                head = secTemp;
+            }
+            if (tail) {
+                tail->next = new Node(temp->data);
+                tail = tail->next;
+            }
+        }
+        prev = temp;
+        temp = temp->next;
+    }
+    cout<<"\n\n";
+    while (head){
+        cout<<head->data;
+        if (head->next){
+            cout<<"-->";
+        }
+        head = head->next;
+    }
 }

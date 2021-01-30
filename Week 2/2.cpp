@@ -116,34 +116,30 @@ int main(){
         }
     }
 
-    cout<<"Sparse Matrix LinkedList Representation:\n";
+    cout<<"Sparse Matrix LinkedList Representation:\n\n";
     cout<<"Row Wise:\n";
     Node *temp0 = head;
     for (int i = 0; i < row; ++i) {
         temp0 = temp0->right;
         Node *temp1 = temp0;
-        cout<<i<<"-->";
-        while (temp1){
+        cout<<temp1->value<<"-->";
+        temp1 = temp1->down;
+        while (temp1 && temp1!=temp0){
             cout<<temp1->value<<" ";
             temp1 = temp1->down;
-            if (temp1==temp0){
-                break;
-            }
         }
         cout<<"\n";
     }
-    cout<<"Column Wise:\n";
+    cout<<"\nColumn Wise:\n";
     temp0 = head;
     for (int i = 0; i < col; ++i) {
         temp0 = temp0->down;
         Node *temp1 = temp0;
-        cout<<i<<"-->";
-        while (temp1){
+        cout<<temp1->value<<"-->";
+        temp1 = temp1->right;
+        while (temp1 && temp1!=temp0){
             cout<<temp1->value<<" ";
             temp1 = temp1->right;
-            if (temp1==temp0){
-                break;
-            }
         }
         cout<<"\n";
     }

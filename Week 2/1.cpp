@@ -1,6 +1,5 @@
 #include<iostream>
 #include <list>
-#include <map>
 using namespace std;
 
 class Sparse{
@@ -50,11 +49,14 @@ int main(){
         Sparse sparse(r,c,d);
         l2.push_back(sparse);
     }
+    list<Sparse> l3;
     if (col1==row2){
-        map<int,map<int,int>> m1;
         for(auto it=l1.begin();it!=l1.end();it++){
-            if(m1.count(it->row)==0){
-                m1[it->row] =
+            int r = it->row;
+            for(auto it2=l2.begin();it2!=l2.end();it2++){
+                int c = it->col;
+                Sparse sparse(r,c,0);
+                l3.push_back(sparse);
             }
         }
     } else{

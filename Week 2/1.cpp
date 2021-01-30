@@ -1,27 +1,8 @@
 #include<iostream>
-#include <list>
 #include <map>
 using namespace std;
 
-class Sparse{
-public:
-    int row;
-    int col;
-    int data;
-    Sparse(){
-        row=0;
-        col=0;
-        data=0;
-    }
-    Sparse(int row,int col,int data){
-        this->row = row;
-        this->col = col;
-        this->data = data;
-    }
-};
-
 int main(){
-//    list<Sparse> l1;
     map<pair<int,int>,int> m1;
     cout<<"Enter Row and Column of 1st Sparse Matrix:\n";
     int row1,col1;
@@ -30,13 +11,13 @@ int main(){
     cout<<"Enter number of entries of 1st Sparse Matrix:\n";
     int n1;
     cin>>n1;
+    cout<<"Enter Row, Column, Data:\n";
     for (int i = 0; i < n1; ++i) {
         int r,c,d;
         cin>>r>>c>>d;
         m1.insert(make_pair(make_pair(r,c),d));
     }
 
-//    list<Sparse> l2;
     map<pair<int,int>,int> m2;
     cout<<"Enter Row and Column of 2nd Sparse Matrix:\n";
     int row2,col2;
@@ -45,6 +26,7 @@ int main(){
     cout<<"Enter number of entries of 2nd Sparse Matrix:\n";
     int n2;
     cin>>n2;
+    cout<<"Enter Row, Column, Data:\n";
     for (int i = 0; i < n2; ++i) {
         int r,c,d;
         cin>>r>>c>>d;
@@ -63,12 +45,15 @@ int main(){
             int r = (it->first).first;
             for(auto it2=m2.begin();it2!=m2.end();it2++){
                 int c = (it2->first).second;
-                output[make_pair(r,c)] += it->second * it2->second;
-                cout<<r<<" "<<c<<" "<<output[make_pair(r,c)]<<'\n';
+                if ((it->first).second == (it2->first).first) {
+                    output[make_pair(r, c)] += it->second * it2->second;
+                }
             }
         }
         for(auto it=output.begin();it!=output.end();it++){
-            cout<<(it->first).first<<" "<<(it->first).second<<" "<<it->second<<"\n";
+            if (it->second!=0) {
+                cout << (it->first).first << " " << (it->first).second << " " << it->second << "\n";
+            }
         }
 
     } else{

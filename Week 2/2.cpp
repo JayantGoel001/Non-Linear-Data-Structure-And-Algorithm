@@ -37,7 +37,6 @@ int main(){
     cout<<"Enter the number of rows and columns:\n";
     cin>>row>>col;
 
-
     Node *head_row = new Node(0);
     Node *head_col = new Node(0);
 
@@ -45,15 +44,17 @@ int main(){
     head->right = head_row;
     head->down = head_col;
 
-
     Node *temp_row = head_row;
     for (int i = 0; i < row - 1; ++i) {
         temp_row->right = new Node(i+1);
+        temp_row = temp_row->right;
     }
     Node *temp_col = head_col;
     for (int i = 0; i < col - 1; ++i) {
         temp_col->down = new Node(i+1);
+        temp_col = temp_col->down;
     }
+
     cout<<"Enter number of entries to be inserted:\n";
     int n;
     cin>>n;
@@ -62,7 +63,8 @@ int main(){
         int r,c,d;
         cin>>r>>c>>d;
         Node *tempRow = head_row;
-        while (tempRow != nullptr){
+
+        while (tempRow){
             if (tempRow->value == r){
                 break;
             }
@@ -70,15 +72,16 @@ int main(){
         }
 
         Node *tempCol = head_col;
-        while (tempCol!= nullptr){
+        while (tempCol){
             if (tempCol->value==c){
                 break;
             }
             tempCol = tempCol->down;
         }
 
+
         Node *temp = new Node(r,c,d);
-        if (!tempRow->down){
+        if (tempRow->down){
             Node *tempRowCol = tempRow;
             while (tempRowCol->down!=tempRow){
                 if (tempRowCol->down->col > c){
@@ -95,7 +98,7 @@ int main(){
             temp->down = tempRow;
         }
 
-        if (!tempCol->right){
+        if (tempCol->right){
             Node *tempColRow = tempCol;
             while (tempColRow->right!=tempCol){
                 if (tempColRow->right->row > r){
@@ -113,9 +116,35 @@ int main(){
         }
     }
 
-    cout<<"Value Row wise:\n";
+    cout<<"Sparse Matrix LinkedList Representation:\n";
+    cout<<"Row Wise:\n";
+    Node *temp0 = head;
     for (int i = 0; i < row; ++i) {
-        cout<<i<<"--->\n";
-        Node *tempRow =
+        temp0 = temp0->right;
+        Node *temp1 = temp0;
+        cout<<i<<"-->";
+        while (temp1){
+            cout<<temp1->value<<" ";
+            temp1 = temp1->down;
+            if (temp1==temp0){
+                break;
+            }
+        }
+        cout<<"\n";
+    }
+    cout<<"Column Wise:\n";
+    temp0 = head;
+    for (int i = 0; i < col; ++i) {
+        temp0 = temp0->down;
+        Node *temp1 = temp0;
+        cout<<i<<"-->";
+        while (temp1){
+            cout<<temp1->value<<" ";
+            temp1 = temp1->right;
+            if (temp1==temp0){
+                break;
+            }
+        }
+        cout<<"\n";
     }
 }

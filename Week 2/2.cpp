@@ -84,7 +84,7 @@ int main(){
         if (tempRow->down){
             Node *tempRowCol = tempRow;
             while (tempRowCol->down!=tempRow){
-                if (tempRowCol->down->col > c){
+                if (tempRowCol->down->col < c){
                     tempRowCol = tempRowCol->down;
                 } else{
                     break;
@@ -101,7 +101,7 @@ int main(){
         if (tempCol->right){
             Node *tempColRow = tempCol;
             while (tempColRow->right!=tempCol){
-                if (tempColRow->right->row > r){
+                if (tempColRow->right->row < r){
                     tempColRow = tempColRow->right;
                 } else{
                     break;
@@ -144,3 +144,64 @@ int main(){
         cout<<"\n";
     }
 }
+
+//Output:
+//
+//(1).
+//Enter the number of rows and columns:
+//6 5
+//Enter number of entries to be inserted:
+//6
+//Enter Row,Column,Data:
+//0 2 2
+//1 1 11
+//2 4 24
+//3 2 32
+//4 0 40
+//5 3 53
+//Sparse Matrix LinkedList Representation:
+//
+//Row Wise:
+//0-->2
+//1-->11
+//2-->24
+//3-->32
+//4-->40
+//5-->53
+//
+//Column Wise:
+//0-->40
+//1-->11
+//2-->2 32
+//3-->53
+//4-->24
+
+
+//(2).
+//Enter the number of rows and columns:
+//5 6
+//Enter number of entries to be inserted:
+//6
+//Enter Row,Column,Data:
+//2 0 20
+//1 1 11
+//2 3 23
+//4 2 42
+//0 4 4
+//3 5 35
+//Sparse Matrix LinkedList Representation:
+//
+//Row Wise:
+//0-->4
+//1-->11
+//2-->20 23
+//3-->35
+//4-->42
+//
+//Column Wise:
+//0-->20
+//1-->11
+//2-->42
+//3-->23
+//4-->4
+//5-->35

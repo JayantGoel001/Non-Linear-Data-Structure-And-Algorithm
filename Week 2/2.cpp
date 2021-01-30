@@ -80,17 +80,42 @@ int main(){
         Node *temp = new Node(r,c,d);
         if (!tempRow->down){
             Node *tempRowCol = tempRow;
-
+            while (tempRowCol->down!=tempRow){
+                if (tempRowCol->down->col > c){
+                    tempRowCol = tempRowCol->down;
+                } else{
+                    break;
+                }
+            }
+            Node *next_node_col = tempRowCol->down;
+            tempRowCol->down = temp;
+            temp->down = next_node_col;
         } else{
             tempRow->down = temp;
             temp->down = tempRow;
         }
 
         if (!tempCol->right){
-
+            Node *tempColRow = tempCol;
+            while (tempColRow->right!=tempCol){
+                if (tempColRow->right->row > r){
+                    tempColRow = tempColRow->right;
+                } else{
+                    break;
+                }
+            }
+            Node *next_node_row = tempColRow->right;
+            tempColRow->right = temp;
+            temp->right = next_node_row;
         } else{
             tempCol->right = temp;
             temp->right = tempCol;
         }
+    }
+
+    cout<<"Value Row wise:\n";
+    for (int i = 0; i < row; ++i) {
+        cout<<i<<"--->\n";
+        Node *tempRow =
     }
 }

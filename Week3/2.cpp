@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+
 class DoublyLinkedListNode{
 public:
     int data;
@@ -32,8 +33,33 @@ public:
 XORLinkedListNode* XOR(XORLinkedListNode *a,XORLinkedListNode *b){
     return (XORLinkedListNode*)((uintptr_t)(a)^(uintptr_t)(b));
 }
-XORLinkedListNode* XOR(DoublyLinkedListNode *a,DoublyLinkedListNode *b){
-    return (XORLinkedListNode*)((uintptr_t)(a)^(uintptr_t)(b));
+
+void printList(XORLinkedListNode *head){
+    if (!head){
+        return;
+    }
+    cout<<"In Forward Direction:\n";
+    XORLinkedListNode *temp = head;
+    XORLinkedListNode *prev = nullptr;
+    while (true){
+        cout<<temp->data<<" ";
+        XORLinkedListNode *next = XOR(prev,temp->npx);
+        prev = temp;
+        if (!next){
+            break;
+        }
+        temp = next;
+    }
+    cout<<"\n\nIn Backward Direction:\n";
+
+    XORLinkedListNode *next = nullptr;
+    while (temp!= nullptr){
+        cout<<temp->data<<" ";
+        prev = XOR(next,temp->npx);
+        next = temp;
+        temp = prev;
+    }
+
 }
 int main(){
     int n;
@@ -55,20 +81,19 @@ int main(){
         }
     }
     DoublyLinkedListNode *temp = doublyLinkedListHead;
+    while (temp->next){
+        temp = temp->next;
+    }
     XORLinkedListNode *xorLinkedListHead = nullptr;
-    XORLinkedListNode *currXOR = xorLinkedListHead;
     while (temp){
         XORLinkedListNode *tempXOR = new XORLinkedListNode(temp->data);
-        tempXOR->npx = XOR(temp->prev,temp->next);
-        if (currXOR){
+        tempXOR->npx = xorLinkedListHead;
 
-        } else{
-            currXOR = tempXOR;
-            xorLinkedListHead = tempXOR;
+        if (xorLinkedListHead){
+            xorLinkedListHead->npx = XOR(tempXOR,xorLinkedListHead->npx);
         }
-
-        temp = temp->next;
-
+        xorLinkedListHead = tempXOR;
+        temp = temp->prev;
     }
-
+    printList(xorLinkedListHead);
 }

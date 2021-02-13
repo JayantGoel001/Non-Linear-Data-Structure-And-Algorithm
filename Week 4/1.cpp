@@ -109,18 +109,19 @@ int main(){
     cout<<"Enter number of elements:\n";
     cin>>n;
     Node *head = nullptr;
-
     for (int i = 0; i < n; ++i) {
         int data;
         cin>>data;
         head = Insert(head,data);
     }
     printList(head);
+
     cout<<"\nEnter Number to be deleted:\n";
     int delEle;
     cin>>delEle;
     Delete(head,delEle);
     printList(head);
+
     cout<<"Enter Number to be searched:\n";
     int searchEle;
     cin>>searchEle;

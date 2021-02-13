@@ -25,6 +25,7 @@ Node* Insert(Node *head,int data){
         }
 
         if (curr->count == curr->SIZE){
+            Node *temp = curr->next;
             curr->next = new Node();
             int *arr = curr->arr;
 
@@ -36,6 +37,7 @@ Node* Insert(Node *head,int data){
                 arr[j] = -1;
                 curr->next->count = curr->next->count + 1;
             }
+            curr->next->next = temp;
         }
 
         if (curr->next && curr->next->arr[0] <data){
@@ -60,10 +62,12 @@ Node* Insert(Node *head,int data){
 }
 void Delete(Node *head,int data){
     Node *curr = head;
+    Node *prev = nullptr;
     while (curr->next){
         if (curr->next->arr[0]>data){
             break;
         }
+        prev = curr;
         curr = curr->next;
     }
     int k = 0;
@@ -75,6 +79,9 @@ void Delete(Node *head,int data){
         k++;
     }
     curr->count = curr->count - 1;
+    if (curr->count==0){
+        prev->next = curr->next;
+    }
 }
 pair<int,int> Search(Node *head,int data){
     int k = 0;

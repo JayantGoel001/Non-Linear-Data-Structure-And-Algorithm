@@ -84,7 +84,7 @@ void Delete(Node *head,int data){
     }
 }
 pair<int,int> Search(Node *head,int data){
-    int k = 0;
+    int k = 1;
     int pos = -1;
     while (head->next){
         if (head->next->arr[0]>data){
@@ -95,11 +95,11 @@ pair<int,int> Search(Node *head,int data){
     }
     for (int i = 0; i < head->count; ++i) {
         if (head->arr[i]==data){
-            pos = i;
+            pos = i+1;
             break;
         }
     }
-    return make_pair(k+1,pos+1);
+    return make_pair(k,pos);
 }
 void printList(Node *head){
     Node *temp = head;
@@ -133,5 +133,9 @@ int main(){
     int searchEle;
     cin>>searchEle;
     pair<int,int> p = Search(head,searchEle);
-    cout<<"Element is found in List Number "<<p.first<<" at "<<p.second<<" ";
+    if (p.second!=-1){
+        cout<<"Element is found in List Number "<<p.first<<" at "<<p.second<<" ";
+    } else{
+        cout<<"Not Found!!!";
+    }
 }

@@ -30,12 +30,11 @@ void insert(Trie *root,string key){
 void getAllRecommendationUtil(Trie *root,string key,vector<string> &v){
     if (root) {
         if (root->isEndOfWord) {
-            cout<<key<<'\n';
             v.push_back(key);
         }
         for (int i = 0; i < 26; ++i) {
             if (root->children[i]) {
-                getAllRecommendationUtil(root, key + ((char) (i + 65)), v);
+                getAllRecommendationUtil(root->children[i], key + ((char) (i + 97)), v);
             }
         }
     }
@@ -65,9 +64,11 @@ int main(){
         cin>>str;
         insert(root,str);
     }
-    cout<<"\nEnter the Query:\n\n";
+    cout<<"Enter the Query :\n";
     cin>>str;
     vector<string> v = getAllRecommendation(root,str);
+
+    cout<<"Recommendation are :\n";
     for(auto it=v.begin();it!=v.end();it++){
         cout<<*it<<"\n";
     }

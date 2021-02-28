@@ -50,10 +50,13 @@ void remove(Trie *root,string key){
     Trie *temp = root;
     Trie *lastEndOfWord = root;
     int lastEndOfWordIndex = 0;
+    bool notFound = false;
     for (int i = 0; i < key.length(); ++i) {
         int index = key[i] - 'a';
         if (!temp->children[index]){
             cout<<"Element Not Found";
+            notFound = true;
+            break;
         }
         if (i!=key.length()-1 && temp->isEndOfWord){
             lastEndOfWord = temp;
@@ -61,8 +64,12 @@ void remove(Trie *root,string key){
         }
         temp = temp->children[index];
     }
-    removeUtil(lastEndOfWord,key,lastEndOfWordIndex);
-}
+    if (!notFound && temp->isEndOfWord) {
+        removeUtil(lastEndOfWord, key, lastEndOfWordIndex);
+        cout<<key<<" removed Successfully.";
+    } else{
+        cout<<"Element Not Found";
+    }}
 
 int main(){
     cout<<"Enter Number of Words :\n";

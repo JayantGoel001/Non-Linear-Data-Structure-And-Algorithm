@@ -2,6 +2,8 @@
 #include<map>
 #include <vector>
 #include <string>
+#include <fstream>
+#include "json.hpp"
 using namespace std;
 
 class Trie{
@@ -71,26 +73,28 @@ void remove(Trie *root,string key){
 }
 
 int main(){
-    cout<<"Enter Number of Words :\n";
-    int n;
-    cin>>n;
+    int n=0;
+    string *str;
+    using json = nlohmann::json;
+    json j;
 
-    string str;
+    ifstream readJSON("C://Users/jgoel/CLionProjects/Non-Linear-Data-Structure-And-Algorithm/Final project/data.json");
+    j = json::parse(readJSON);
+
     Trie *root = new Trie();
-    for (int i = 0; i < n; ++i) {
-        cin>>str;
-        vector<string> values;
-        insert(root,str,values);
+    for(auto it=j.begin();it!=j.end();it++){
+        string key = it.key();
+        insert(root,key,*it);
     }
-
+    string key;
     cout<<"Enter Word To Be Searched :\n";
-    cin>>str;
-    vector<string> values = search(root,str);
+    cin>>key;
+    vector<string> values = search(root,key);
     for(auto it=values.begin();it!=values.end();it++) {
         cout << *it << "\n";
     }
 
     cout<<"Enter Word To Be Deleted :\n";
-    cin>>str;
-    remove(root,str);
+    cin>>key;
+    remove(root,key);
 }

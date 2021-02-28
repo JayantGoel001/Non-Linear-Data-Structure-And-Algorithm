@@ -10,6 +10,8 @@
 using json = nlohmann::json;
 using namespace std;
 
+string path_to_Current_Directory = "C://Users/jgoel/CLionProjects/Non-Linear-Data-Structure-And-Algorithm/Final project/";
+
 class Trie{
 public:
     map<char,Trie*> children;
@@ -144,8 +146,9 @@ string toLowerCase(string str){
 }
 json readJsonFile(){
     json j;
-    ifstream readJSON("C://Users/jgoel/CLionProjects/Non-Linear-Data-Structure-And-Algorithm/Final project/data.json");
+    ifstream readJSON(path_to_Current_Directory+"data.json");
     j = json::parse(readJSON);
+    readJSON.close();
     return j;
 }
 void drawHash(int n){
@@ -161,6 +164,7 @@ void displayChoice(){
     cout<<blue<<"2--->Delete A Word\n";
     cout<<blue<<"3--->Word Of The Day\n";
     cout<<blue<<"4--->Recommendations Of A Word\n";
+    cout<<blue<<"5--->Check History\n";
     cout<<"\n";
 }
 void welcomeBanner(){
@@ -169,6 +173,7 @@ void welcomeBanner(){
     drawHash(40);
 }
 int main(){
+
     json j = readJsonFile();
 
     Trie *root = new Trie();
@@ -176,6 +181,7 @@ int main(){
         string key = it.key();
         insert(root,toLowerCase(key),*it);
     }
+
     welcomeBanner();
     while (true){
         displayChoice();
@@ -192,6 +198,10 @@ int main(){
             vector<string> values = search(root, toLowerCase(key));
             cout<<"\n";
             displayOutput(values);
+            ofstream historyFile;
+            historyFile.open(path_to_Current_Directory+"History.txt", ios_base::app);
+            historyFile << key+"\n";
+            historyFile.close();
         }
         else if(ch==2){
             cout<<"Enter Word To Be Deleted :\n";
@@ -208,13 +218,25 @@ int main(){
         }
         else if(ch==3){
             getWordOfTheDay(root);
-        }else if(ch==4){
+        }
+        else if(ch==4){
             cout << "Enter A Word :\n";
             string key;
             cin.ignore();
             getline(cin,key);
             vector<string> v = getAllRecommendation(root,key);
             displayOutput(v);
+        }
+        else if(ch==5){
+            ifstream historyFile;
+            string key;
+            historyFile.open(path_to_Current_Directory+"History.txt");
+            int i=1;
+            cout<<"Recently Searched Words:\n";
+            while (getline(historyFile,key)){
+                cout<<yellow<<i<<". "<<key<<"\n";
+                i++;
+            }
         }else{
             cout<<red<<"Wrong Input\nTry Again....";
             break;

@@ -49,23 +49,31 @@ vector<string> search(Trie *root,string key){
         return notFound;
     }
 }
-
-Trie* remove(Trie *root,string key,int i){
+Trie* removeUtil(Trie *root,string key,int i){
     if (!root){
         return nullptr;
     }
     if (i == key.length()){
         if (root->isEndOfWord){
-            root->isEndOfWord = !root->isEndOfWord;
+            root->isEndOfWord = false;
         }
-        if (root->children.size()){
+        if (root->children.size()==0){
             delete root;
             root = nullptr;
         }
         return root;
     }
     char index = key[i];
-    root->children[index] = remove(root->children[index],key,i+1);
+    root->children[index] = removeUtil(root->children[index],key,i+1);
+    if(root->children.size()==0 && !root->isEndOfWord){
+        delete root;
+        root = nullptr;
+    }
+    return root;
+}
+bool remove(Trie *root,string key){
+    removeUtil(root,key,0);
+    return true;
 }
 string toLowerCase(string str){
     transform(str.begin(), str.end(), str.begin(), ::tolower);
@@ -126,7 +134,7 @@ int main(){
         else if(ch==2){
             cout<<"Enter Word To Be Deleted :\n";
             cin>>key;
-            if(remove(root,toLowerCase(key),0)){
+            if(remove(root,toLowerCase(key))){
                 cout<<yellow<<key<<" removed Successfully.";
             } else{
                 cout<<red<<"Element Not Found";

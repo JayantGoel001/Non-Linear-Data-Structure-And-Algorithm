@@ -173,7 +173,6 @@ void welcomeBanner(){
     drawHash(40);
 }
 int main(){
-
     json j = readJsonFile();
 
     Trie *root = new Trie();
@@ -237,7 +236,9 @@ int main(){
                 cout<<yellow<<i<<". "<<key<<"\n";
                 i++;
             }
-        }else{
+            historyFile.close();
+        }
+        else{
             cout<<red<<"Wrong Input\nTry Again....";
             break;
         }

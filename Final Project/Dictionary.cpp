@@ -71,10 +71,11 @@ void remove(Trie *root,string key){
     }
     removeUtil(lastEndOfWord,key,lastEndOfWordIndex);
 }
-
+string toLowerCase(string str){
+    transform(str.begin(), str.end(), str.begin(), ::tolower);
+    return str;
+}
 int main(){
-    int n=0;
-    string *str;
     using json = nlohmann::json;
     json j;
 
@@ -84,12 +85,14 @@ int main(){
     Trie *root = new Trie();
     for(auto it=j.begin();it!=j.end();it++){
         string key = it.key();
-        insert(root,key,*it);
+        insert(root,toLowerCase(key),*it);
     }
+
+
     string key;
     cout<<"Enter Word To Be Searched :\n";
     cin>>key;
-    vector<string> values = search(root,key);
+    vector<string> values = search(root,toLowerCase(key));
     for(auto it=values.begin();it!=values.end();it++) {
         cout << *it << "\n";
     }

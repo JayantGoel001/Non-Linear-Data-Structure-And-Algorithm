@@ -163,8 +163,9 @@ void displayChoice(){
     cout<<blue<<"1--->Search A Word\n";
     cout<<blue<<"2--->Delete A Word\n";
     cout<<blue<<"3--->Word Of The Day\n";
-    cout<<blue<<"4--->Recommendations Of A Word\n";
+    cout<<blue<<"4--->Check Whether A Word Is Prefix of Some String Or Not\n";
     cout<<blue<<"5--->Check History\n";
+    cout<<blue<<"6--->Longest Prefix of a Word\n";
     cout<<"\n";
 }
 void welcomeBanner(){
@@ -237,6 +238,9 @@ int main(){
                 i++;
             }
             historyFile.close();
+        }
+        else if(ch==6){
+
         }
         else{
             cout<<red<<"Wrong Input\nTry Again....";

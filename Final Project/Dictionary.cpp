@@ -115,7 +115,6 @@ int main(){
         insert(root,toLowerCase(key),*it);
     }
     welcomeBanner();
-    string key;
     while (true){
         displayChoice();
         cout<<green;
@@ -123,7 +122,11 @@ int main(){
         cin>>ch;
         if(ch==1) {
             cout << "Enter Word To Be Searched :\n";
-            cin >> key;
+            string key;
+
+            cin.ignore();
+            getline(cin,key);
+
             vector<string> values = search(root, toLowerCase(key));
             cout<<"\n";
             int i=1;
@@ -135,7 +138,11 @@ int main(){
         }
         else if(ch==2){
             cout<<"Enter Word To Be Deleted :\n";
-            cin>>key;
+            string key;
+
+            cin.ignore();
+            getline(cin,key);
+
             if(remove(root,toLowerCase(key))){
                 cout<<yellow<<key<<" removed Successfully.";
             } else{

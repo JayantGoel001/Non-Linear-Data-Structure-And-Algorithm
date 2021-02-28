@@ -156,6 +156,9 @@ int main(){
         cout<<red<<"\n\nDo You Wish To Continue [Y/n]:\n";
         cin>>cont;
         if (cont=='n'||cont=='N'){
+            drawHash(40);
+            cout<<blue<<" Thank You ";
+            drawHash(40);
             break;
         } else{
             welcomeBanner();

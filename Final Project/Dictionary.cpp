@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include<time.h>
 #include "json.hpp"
 #include "ConsoleColor.h"
 
@@ -99,11 +100,12 @@ void displayChoice(){
 
     cout<<blue<<"1--->Search A Word\n";
     cout<<blue<<"2--->Delete A Word\n";
+    cout<<blue<<"3--->Word Of The Day\n";
     cout<<"\n";
 }
 void welcomeBanner(){
     drawHash(40);
-    cout<<white<<" WELCOME TO OUR DICTIONARY ";
+    cout<<blue<<" WELCOME TO OUR DICTIONARY ";
     drawHash(40);
 }
 int main(){
@@ -148,7 +150,35 @@ int main(){
             } else{
                 cout<<red<<"Element Not Found";
             }
-        } else{
+        }else if(ch==3){
+            Trie *temp = root;
+            string str = "";
+            int i;
+            char index='a';
+            vector<string> data;
+            srand(time(0));
+            while (!temp->isEndOfWord){
+                int numberOfChildren = temp->children.size();
+                i = rand()%numberOfChildren;
+                int k = 0;
+                for(auto it=temp->children.begin();it!=temp->children.end();it++){
+                    if(k==i){
+                        index = it->first;
+                        break;
+                    }
+                    k++;
+                }
+                str += index;
+                temp = temp->children[index];
+            }
+            cout<<yellow<<"Word Of The Day is : "<<green<<"\""<<str<<"\""<<'\n';
+            i=1;
+            cout<<yellow;
+            for (auto it = temp->data.begin(); it != temp->data.end(); it++) {
+                cout<<i<<". "<< *it << "\n";
+                i++;
+            }
+        }else{
             cout<<red<<"Wrong Input\n";
             break;
         }

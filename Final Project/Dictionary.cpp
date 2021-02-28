@@ -49,13 +49,14 @@ vector<string> search(Trie *root,string key){
         return notFound;
     }
 }
-Trie* removeUtil(Trie *root,string key,int i){
+Trie* removeUtil(Trie *root,string key,int i,bool &found){
     if (!root){
         return nullptr;
     }
     if (i == key.length()){
         if (root->isEndOfWord){
             root->isEndOfWord = false;
+            found = true;
         }
         if (root->children.size()==0){
             delete root;
@@ -64,7 +65,7 @@ Trie* removeUtil(Trie *root,string key,int i){
         return root;
     }
     char index = key[i];
-    root->children[index] = removeUtil(root->children[index],key,i+1);
+    root->children[index] = removeUtil(root->children[index],key,i+1,found);
     if(root->children.size()==0 && !root->isEndOfWord){
         delete root;
         root = nullptr;
@@ -72,8 +73,9 @@ Trie* removeUtil(Trie *root,string key,int i){
     return root;
 }
 bool remove(Trie *root,string key){
-    removeUtil(root,key,0);
-    return true;
+    bool found = false;
+    removeUtil(root,key,0,found);
+    return found;
 }
 string toLowerCase(string str){
     transform(str.begin(), str.end(), str.begin(), ::tolower);

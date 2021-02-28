@@ -4,6 +4,9 @@
 #include <string>
 #include <fstream>
 #include "json.hpp"
+#include "ConsoleColor.h"
+
+using json = nlohmann::json;
 using namespace std;
 
 class Trie{
@@ -58,10 +61,12 @@ void remove(Trie *root,string key){
     Trie *temp = root;
     Trie *lastEndOfWord = root;
     int lastEndOfWordIndex = 0;
+    bool notFound = false;
     for (int i = 0; i < key.length(); ++i) {
         int index = key[i] ;
         if (!temp->children[index]){
-            cout<<"Element Not Found";
+            cout<<red<<"Element Not Found";
+            notFound = true;
         }
         if (i!=key.length()-1 && temp->isEndOfWord){
             lastEndOfWord = temp;
@@ -69,35 +74,83 @@ void remove(Trie *root,string key){
         }
         temp = temp->children[index];
     }
-    removeUtil(lastEndOfWord,key,lastEndOfWordIndex);
+    if (!notFound) {
+        removeUtil(lastEndOfWord, key, lastEndOfWordIndex);
+    }
 }
 string toLowerCase(string str){
     transform(str.begin(), str.end(), str.begin(), ::tolower);
     return str;
 }
-int main(){
-    using json = nlohmann::json;
+json readJsonFile(){
     json j;
 
     ifstream readJSON("C://Users/jgoel/CLionProjects/Non-Linear-Data-Structure-And-Algorithm/Final project/data.json");
     j = json::parse(readJSON);
+    return j;
+}
+void drawHash(int n){
+    for (int i = 0; i < n; ++i) {
+        cout<<white<<"#";
+    }
+}
+void displayChoice(){
+    cout<<"\n\n";
+    cout<<red<<"Type....\n";
+
+    cout<<blue<<"1--->Search A Word\n";
+    cout<<blue<<"2--->Delete A Word\n";
+    cout<<"\n";
+}
+void welcomeBanner(){
+    drawHash(40);
+    cout<<white<<" WELCOME TO OUR DICTIONARY ";
+    drawHash(40);
+}
+int main(){
+    json j = readJsonFile();
 
     Trie *root = new Trie();
     for(auto it=j.begin();it!=j.end();it++){
         string key = it.key();
         insert(root,toLowerCase(key),*it);
     }
-
-
+    welcomeBanner();
     string key;
-    cout<<"Enter Word To Be Searched :\n";
-    cin>>key;
-    vector<string> values = search(root,toLowerCase(key));
-    for(auto it=values.begin();it!=values.end();it++) {
-        cout << *it << "\n";
+    while (true){
+        displayChoice();
+        cout<<green;
+        int ch;
+        cin>>ch;
+        if(ch==1) {
+            cout << "Enter Word To Be Searched :\n";
+            cin >> key;
+            vector<string> values = search(root, toLowerCase(key));
+            cout<<"\n";
+            int i=1;
+            cout<<yellow;
+            for (auto it = values.begin(); it != values.end(); it++) {
+                cout<<i<<". "<< *it << "\n";
+                i++;
+            }
+        }
+        else if(ch==2){
+            cout<<"Enter Word To Be Deleted :\n";
+            cin>>key;
+            remove(root,toLowerCase(key));
+            cout<<yellow<<key<<" removed Successfully.";
+        } else{
+            cout<<red<<"Wrong Input\n";
+            break;
+        }
+        char cont;
+        cout<<red<<"\n\nDo You Wish To Continue [Y/n]:\n";
+        cin>>cont;
+        if (cont=='n'||cont=='N'){
+            break;
+        } else{
+            welcomeBanner();
+        }
+        cout<<white;
     }
-
-    cout<<"Enter Word To Be Deleted :\n";
-    cin>>key;
-    remove(root,key);
 }

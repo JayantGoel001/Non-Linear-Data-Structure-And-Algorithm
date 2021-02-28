@@ -49,37 +49,23 @@ vector<string> search(Trie *root,string key){
         return notFound;
     }
 }
-void removeUtil(Trie *root,string key,int i){
-    if (i!=key.length()){
-        char index = key[i];
-        removeUtil(root->children[index],key,i+1);
-        delete root;
-    }
-}
 
-void remove(Trie *root,string key){
-    Trie *temp = root;
-    Trie *lastEndOfWord = root;
-    int lastEndOfWordIndex = 0;
-    bool notFound = false;
-    for (int i = 0; i < key.length(); ++i) {
-        char index = key[i] ;
-        if (!temp->children[index]){
-            notFound = true;
-            break;
-        }
-        if (i!=key.length()-1 && temp->isEndOfWord){
-            lastEndOfWord = temp;
-            lastEndOfWordIndex = i;
-        }
-        temp = temp->children[index];
+Trie* remove(Trie *root,string key,int i){
+    if (!root){
+        return nullptr;
     }
-    if (!notFound && temp->isEndOfWord) {
-        removeUtil(lastEndOfWord, key, lastEndOfWordIndex);
-        cout<<yellow<<key<<" removed Successfully.";
-    } else{
-        cout<<red<<"Element Not Found";
+    if (i == key.length()){
+        if (root->isEndOfWord){
+            root->isEndOfWord = !root->isEndOfWord;
+        }
+        if (root->children.size()){
+            delete root;
+            root = nullptr;
+        }
+        return root;
     }
+    char index = key[i];
+    root->children[index] = remove(root->children[index],key,i+1);
 }
 string toLowerCase(string str){
     transform(str.begin(), str.end(), str.begin(), ::tolower);
@@ -140,7 +126,11 @@ int main(){
         else if(ch==2){
             cout<<"Enter Word To Be Deleted :\n";
             cin>>key;
-            remove(root,toLowerCase(key));
+            if(remove(root,toLowerCase(key),0)){
+                cout<<yellow<<key<<" removed Successfully.";
+            } else{
+                cout<<red<<"Element Not Found";
+            }
         } else{
             cout<<red<<"Wrong Input\n";
             break;

@@ -12,17 +12,17 @@ SuffixTree* insert(SuffixTree *tree,string str){
     if (!tree){
         tree = new SuffixTree();
         tree->children[str] = new SuffixTree();
-    } else{
-        SuffixTree *parent = nullptr;
+    } else {
+        SuffixTree *parent = tree;
         SuffixTree *temp = tree;
-        int i=0;
+        int i = 0;
         while (true) {
             string index = to_string(str[i]);
             if (temp->children.count(index) != 0) {
                 parent = temp;
                 temp = temp->children[index];
                 i++;
-            } else{
+            } else {
                 break;
             }
         }
@@ -32,12 +32,15 @@ SuffixTree* insert(SuffixTree *tree,string str){
             if (it->first[i] == str[i]) {
                 containCommon = true;
                 string key = it->first;
+                auto children = parent->children[key]->children;
                 parent->children.erase(key);
+
                 int k = i;
                 while (key[k] == str[k] && k < min(key.size(), str.size())) {
                     k++;
                 }
                 parent->children[key.substr(i, k)] = new SuffixTree();
+                parent->children.insert(children.begin(),children.end());
                 temp = parent->children[key.substr(i, k)];
                 temp->children[key.substr(k)] = new SuffixTree();
                 temp->children[str.substr(k)] = new SuffixTree();
@@ -54,7 +57,7 @@ SuffixTree* insert(SuffixTree *tree,string str){
 void printTree(SuffixTree *tree){
     if (tree) {
         for (auto it = tree->children.begin(); it != tree->children.end(); it++) {
-            cout << it->first << "\n";
+            cout << it->first<<" ";
             printTree(tree->children[it->first]);
         }
     }

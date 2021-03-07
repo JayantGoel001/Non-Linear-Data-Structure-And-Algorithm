@@ -1,9 +1,9 @@
 #include <iostream>
-#include<map>
+#include <map>
 #include <vector>
 #include <string>
 #include <fstream>
-#include<time.h>
+#include <time.h>
 #include "json.hpp"
 #include "ConsoleColor.h"
 using json = nlohmann::json;
@@ -33,7 +33,6 @@ void insert(Trie *root,string key,vector<string> data){
     temp->isEndOfWord = true;
     temp->data = data;
 }
-
 vector<string> search(Trie *root,string key){
     vector<string> notFound;
     notFound.push_back("Word Not Found");
@@ -79,7 +78,6 @@ bool remove(Trie *root,string key){
     removeUtil(root,key,0,found);
     return found;
 }
-
 void displayOutput(vector<string> values){
     int i=1;
     cout<<yellow;
@@ -141,17 +139,14 @@ void getWordOfTheDay(Trie *root){
 }
 void wordBreak(Trie *root,string str,vector<string> &v,string output){
     if (str.size()==0){
-        cout<<output;
         v.push_back(output);
         return;
     }
     for (int i = 1; i <= str.size(); ++i) {
         string prefix = str.substr(0,i);
 
-        if (search(root,prefix)[0]!="Word Not Found"){
-            if (prefix.size()!=1) {
-                wordBreak(root, str.substr(i), v, output + " " + prefix);
-            }
+        if (search(root,prefix)[0]!="Word Not Found" && prefix.size()!=1){
+            wordBreak(root, str.substr(i), v, output + " " + prefix);
         }
     }
 }
@@ -267,9 +262,10 @@ int main(){
             vector<string> v;
             wordBreak(root,toLowerCase(key),v,"");
             if(v.size()!=0){
-                cout<<yellow<<"Word Can Be Segmented";
+                cout<<yellow<<"Word Can Be Segmented\n";
+                displayOutput(v);
             }else{
-                cout<<red<<"Word Can Not Be Segmented";
+                cout<<red<<"Word Can Not Be Segmented\n";
             }
 
         }else{

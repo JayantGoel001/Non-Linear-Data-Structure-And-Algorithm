@@ -6,7 +6,6 @@
 #include<time.h>
 #include "json.hpp"
 #include "ConsoleColor.h"
-
 using json = nlohmann::json;
 using namespace std;
 
@@ -140,6 +139,22 @@ void getWordOfTheDay(Trie *root){
     cout<<yellow<<"Word Of The Day is : "<<green<<"\""<<str<<"\""<<'\n';
     displayOutput(temp->data);
 }
+void wordBreak(Trie *root,string str,vector<string> &v,string output){
+    if (str.size()==0){
+        cout<<output;
+        v.push_back(output);
+        return;
+    }
+    for (int i = 1; i <= str.size(); ++i) {
+        string prefix = str.substr(0,i);
+
+        if (search(root,prefix)[0]!="Word Not Found"){
+            if (prefix.size()!=1) {
+                wordBreak(root, str.substr(i), v, output + " " + prefix);
+            }
+        }
+    }
+}
 string toLowerCase(string str){
     transform(str.begin(), str.end(), str.begin(), ::tolower);
     return str;
@@ -166,6 +181,7 @@ void displayChoice(){
     cout<<blue<<"4--->Check Whether A Word Is Prefix of Some String Or Not\n";
     cout<<blue<<"5--->Check History\n";
     cout<<blue<<"6--->Longest Prefix of a Word\n";
+    cout<<blue<<"7--->Word Break\n";
     cout<<"\n";
 }
 void welcomeBanner(){
@@ -183,6 +199,7 @@ int main(){
     }
 
     welcomeBanner();
+
     while (true){
         displayChoice();
         cout<<green;
@@ -241,8 +258,21 @@ int main(){
         }
         else if(ch==6){
 
-        }
-        else{
+        }else if(ch==7){
+            cout << "Enter Word To Be Segmented :\n";
+            string key;
+
+            cin.ignore();
+            getline(cin,key);
+            vector<string> v;
+            wordBreak(root,toLowerCase(key),v,"");
+            if(v.size()!=0){
+                cout<<yellow<<"Word Can Be Segmented";
+            }else{
+                cout<<red<<"Word Can Not Be Segmented";
+            }
+
+        }else{
             cout<<red<<"Wrong Input\nTry Again....";
             break;
         }

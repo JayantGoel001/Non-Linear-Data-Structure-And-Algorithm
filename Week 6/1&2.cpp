@@ -89,13 +89,41 @@ Node* constructSegmentTree(int *ar,int n){
     constructSegmentTreeUtil(ar,0,n-1,root);
     return root;
 }
+void updateSegmentTreeUtil(Node *root,int index,int diff){
+    if (root->interval.first>index || root->interval.second<index){
+        return;
+    }
+    root->sum +=diff;
+    if (root->interval.first!=root->interval.second){
+        updateSegmentTreeUtil(root->left,index,diff);
+        updateSegmentTreeUtil(root->right,index,diff);
+    }
+}
+void updateSegmentTree(Node *root,int index,int value,int *ar,int n){
+    if (index<0 && index>n-1){
+        cout<<"Wrong Input\n";
+        return;
+    }
+    int diff = value-ar[index];
+    ar[index] = value;
+    updateSegmentTreeUtil(root,index,diff);
+}
 int main(){
     int ar[] = {1,4,6,8,10,12,15};
     int n = 7;
+    int qs= 1;
+    int qe = 4;
     Node *segmentTree = constructSegmentTree(ar,n);
-    int *values = getSumMinMax(segmentTree,1,3);
+    int *values = getSumMinMax(segmentTree,qs,qe);
     cout<<"SUM : "<<values[0]<<"\n";
     cout<<"MINIMUM : "<<values[1]<<"\n";
     cout<<"MAXIMUM : "<<values[2]<<"\n";
 
+    int updateIndex = 2;
+    int updateValue = 7;
+    updateSegmentTree(segmentTree,updateIndex,updateValue,ar,n);
+    values = getSumMinMaxUtil(segmentTree,qs,qe);
+    cout<<"SUM : "<<values[0]<<"\n";
+    cout<<"MINIMUM : "<<values[1]<<"\n";
+    cout<<"MAXIMUM : "<<values[2]<<"\n";
 }

@@ -109,18 +109,27 @@ void updateSegmentTree(Node *root,int index,int value,int *ar,int n){
     updateSegmentTreeUtil(root,index,diff);
 }
 int main(){
-    int ar[] = {1,4,6,8,10,12,15};
-    int n = 7;
-    int qs= 1;
-    int qe = 4;
+    cout<<"Enter Number:\n";
+    int n;
+    cin>>n;
+    int *ar = new int [n];
+    cout<<"Enter Elements in array:";
+    for (int i = 0; i < n; ++i) {
+        cin>>ar[i];
+    }
+    int qs;
+    int qe;
+    cout<<"Enter Start and End Point of query:\n";
+    cin>>qs>>qe;
     Node *segmentTree = constructSegmentTree(ar,n);
     int *values = getSumMinMax(segmentTree,qs,qe);
     cout<<"SUM : "<<values[0]<<"\n";
     cout<<"MINIMUM : "<<values[1]<<"\n";
     cout<<"MAXIMUM : "<<values[2]<<"\n";
-
-    int updateIndex = 2;
-    int updateValue = 7;
+    cout<<"Enter The Key and value of to be updated:\n";
+    int updateIndex;
+    int updateValue;
+    cin>>updateIndex>>updateValue;
     updateSegmentTree(segmentTree,updateIndex,updateValue,ar,n);
     values = getSumMinMaxUtil(segmentTree,qs,qe);
     cout<<"SUM : "<<values[0]<<"\n";

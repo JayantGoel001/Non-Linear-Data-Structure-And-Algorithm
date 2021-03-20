@@ -3,4 +3,4 @@ project(Non_Linear_Data_Structure_And_Algorithm)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(. "Lab Test 1/1.cpp")
+add_executable(. "Week 6/1&2.cpp")

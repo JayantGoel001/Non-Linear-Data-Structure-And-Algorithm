@@ -47,7 +47,6 @@ int main(){
     int key;
     int value;
     cin>>key>>value;
-    ar[key] = value;
-    updateBIT(tree,n,key,value);
+    updateBIT(tree,n,key,value-ar[key]);
     cout<<"Sum of elements from 0 to "<<index<<" is "<<getSum(tree,index)<<"\n";
 }

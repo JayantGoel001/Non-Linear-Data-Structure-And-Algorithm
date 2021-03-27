@@ -43,7 +43,7 @@ int main(){
     int index;
     cin>>index;
     cout<<"Sum of elements from 0 to "<<index<<" is "<<getSum(tree,index)<<"\n";
-    cout<<"Enter the kay and value to be updated:\n";
+    cout<<"Enter the key and value to be updated:\n";
     int key;
     int value;
     cin>>key>>value;
